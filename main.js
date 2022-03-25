@@ -1,5 +1,6 @@
 const createButton = document.querySelector("#createTaskButton");
 const createInput = document.querySelector("#taskTitleInput");
+const tasksList = document.querySelector("#tasksList");
 createButton.setAttribute("disabled", "");
 
 createInput.addEventListener("keyup", updateButtonDisability);
@@ -13,14 +14,30 @@ function updateButtonDisability() {
   }
 }
 
-createButton.addEventListener("click", create);
+createButton.addEventListener("click", createTask);
 
-function create() {
+const tasksArray = [];
+
+function createTask() {
   const inputValue = createInput.value;
-  const tasksList = document.querySelector("#tasksList");
   const task = {
     title: inputValue,
     date: new Date(),
   };
-  console.log(task);
+  tasksArray.push(task);
+  renderTasks();
+}
+
+function renderTasks() {
+  tasksList.innerHTML = null;
+  tasksArray.forEach(function (task) {
+    const taskBox = document.createElement("div");
+    const taskTitle = document.createElement("h2");
+    const taskDate = document.createElement("h3");
+    taskTitle.innerHTML = task.title;
+    taskDate.innerHTML = task.date;
+    tasksList.appendChild(taskBox);
+    taskBox.appendChild(taskTitle);
+    taskBox.appendChild(taskDate);
+  });
 }
