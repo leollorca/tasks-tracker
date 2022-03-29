@@ -3,8 +3,13 @@ const createInput = document.querySelector("#taskTitleInput");
 const tasksList = document.querySelector("#tasksList");
 createButton.setAttribute("disabled", "");
 
-createInput.addEventListener("keyup", updateButtonDisability);
+createInput.addEventListener("keyup", onKeyUp);
 createButton.addEventListener("click", createTask);
+
+function onKeyUp(event) {
+  updateButtonDisability();
+  onKeyEnterUp(event);
+}
 
 function updateButtonDisability() {
   const inputValue = createInput.value;
@@ -12,6 +17,12 @@ function updateButtonDisability() {
     createButton.removeAttribute("disabled");
   } else {
     createButton.setAttribute("disabled", "");
+  }
+}
+
+function onKeyEnterUp(event) {
+  if (event.code === "Enter") {
+    createTask();
   }
 }
 
@@ -24,6 +35,7 @@ function createTask() {
     date: new Date(),
   };
   tasksArray.push(task);
+  createInput.value = "";
   renderTasks();
 }
 
