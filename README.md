@@ -38,5 +38,12 @@ _As a user, I can mark a task as done in the list so I can keep track if the tas
 
 ### Acceptance criteria
 
-- Each task should have a "Done" button.
-- On the "Done" button is clicked, the task should be strikethrough.
+- For each task, if the task is done, it should have a "Done" button else it should have a "Undone" button.
+- Once the "Done" button is clicked, the task should be strikethrough.
+- Once the "Undone" button is clicked, the task should be unstrikethrough.
+
+## 05
+
+_As a user, I can visualize the created tasks when I come back on the app so I can preserve in time my tasks list._
+
+- All previously created tasks should appear in the list when I come back on the app.
