@@ -5,6 +5,7 @@ createButton.setAttribute("disabled", "");
 
 createInput.addEventListener("keyup", onKeyUp);
 createButton.addEventListener("click", createTask);
+document.addEventListener("keyup", onKeyDelUp);
 
 function onKeyUp(event) {
   updateButtonDisability();
@@ -21,8 +22,22 @@ function updateButtonDisability() {
 }
 
 function onKeyEnterUp(event) {
-  if (event.code === "Enter") {
+  const inputValue = createInput.value;
+  if (inputValue.trim().length === 0) {
+    createButton.setAttribute("disabled", "");
+    return;
+  } else if (event.code === "Enter") {
     createTask();
+  }
+}
+
+function onKeyDelUp(event) {
+  const target = event.target;
+  if (target === createInput) {
+    return;
+  } else if (event.code === "Backspace") {
+    tasksArray.pop();
+    renderTasks();
   }
 }
 
@@ -37,6 +52,7 @@ function createTask() {
   };
   tasksArray.push(task);
   createInput.value = "";
+  createButton.setAttribute("disabled", "");
   renderTasks();
 }
 
@@ -48,14 +64,15 @@ function doneTask(task) {
   task.state = "done";
 }
 
+function undoneTask(task) {
+  task.state = "undone";
+}
+
 function renderTasks() {
   tasksList.innerHTML = null;
   tasksArray.forEach(function (task, index) {
     const taskBox = document.createElement("div");
     const taskTitle = document.createElement("h2");
-    if (task.state === "done") {
-      taskTitle.style.textDecoration = "line-through";
-    }
     const taskDate = document.createElement("h3");
     const deleteButton = document.createElement("button");
     const doneButton = document.createElement("button");
@@ -63,19 +80,30 @@ function renderTasks() {
     doneButton.classList.add("btn", "btn-primary");
     taskTitle.innerHTML = task.title;
     taskDate.innerHTML = task.date;
-    deleteButton.innerHTML = `Delete`;
-    doneButton.innerHTML = `Done`;
+    deleteButton.innerHTML = "Delete";
+    doneButton.innerHTML = "Done";
     tasksList.appendChild(taskBox);
     taskBox.appendChild(taskTitle);
     taskBox.appendChild(taskDate);
     taskBox.appendChild(deleteButton);
     taskBox.appendChild(doneButton);
+    if (task.state === "undone") {
+      taskTitle.style.textDecoration = "none";
+    } else if (task.state === "done") {
+      taskTitle.style.textDecoration = "line-through";
+      doneButton.innerHTML = "Undone";
+      doneButton.classList.replace("btn-primary", "btn-danger");
+    }
     deleteButton.addEventListener("click", function () {
       deleteTask(index);
       renderTasks();
     });
     doneButton.addEventListener("click", function () {
-      doneTask(task);
+      if (task.state === "undone") {
+        doneTask(task);
+      } else if (task.state === "done") {
+        undoneTask(task);
+      }
       renderTasks();
     });
   });
