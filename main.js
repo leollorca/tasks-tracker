@@ -5,7 +5,7 @@ createButton.setAttribute("disabled", "");
 
 createInput.addEventListener("keyup", onKeyUp);
 createButton.addEventListener("click", createTask);
-document.addEventListener("keyup", onKeyDelUp);
+document.addEventListener("keyup", onKeyBackspaceUp);
 
 function onKeyUp(event) {
   updateButtonDisability();
@@ -31,9 +31,8 @@ function onKeyEnterUp(event) {
   }
 }
 
-function onKeyDelUp(event) {
-  const target = event.target;
-  if (target === createInput) {
+function onKeyBackspaceUp(event) {
+  if (event.target === createInput) {
     return;
   } else if (event.code === "Backspace") {
     tasksArray.pop();
