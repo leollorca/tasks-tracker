@@ -36,11 +36,13 @@ function onKeyBackspaceUp(event) {
     return;
   } else if (event.code === "Backspace") {
     tasksArray.pop();
+    syncLocalStorage();
     renderTasks();
   }
 }
 
-const tasksArray = [];
+const tasksArray = JSON.parse(window.localStorage.getItem("tasks")) || [];
+renderTasks();
 
 function createTask() {
   const inputValue = createInput.value;
@@ -53,18 +55,26 @@ function createTask() {
   createInput.value = "";
   createButton.setAttribute("disabled", "");
   renderTasks();
+  syncLocalStorage();
 }
 
 function deleteTask(index) {
   tasksArray.splice(index, 1);
+  syncLocalStorage();
+}
+
+function syncLocalStorage() {
+  window.localStorage.setItem("tasks", JSON.stringify(tasksArray));
 }
 
 function doneTask(task) {
   task.state = "done";
+  syncLocalStorage();
 }
 
 function undoneTask(task) {
   task.state = "undone";
+  syncLocalStorage();
 }
 
 function renderTasks() {
