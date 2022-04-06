@@ -1,7 +1,43 @@
+const darkModeButton = document.querySelector("#darkModeButton");
+let darkMode = window.localStorage.getItem("darkMode");
+
+function enableDarkMode() {
+  darkMode = "enabled";
+  document.body.style.backgroundColor = "black";
+  document.body.style.color = "white";
+  darkModeButton.classList.replace("btn-primary", "btn-danger");
+  darkModeButton.innerHTML = "Light mode";
+  window.localStorage.setItem("darkMode", "enabled");
+}
+
+function disableDarkMode() {
+  darkMode = "disabled";
+  document.body.style.backgroundColor = "white";
+  document.body.style.color = "black";
+  darkModeButton.classList.replace("btn-danger", "btn-primary");
+  darkModeButton.innerHTML = "Dark mode";
+  window.localStorage.setItem("darkMode", "disabled");
+}
+
+darkModeButton.addEventListener("click", function () {
+  if (darkMode === "disabled") {
+    enableDarkMode();
+    createInput.focus();
+  } else {
+    disableDarkMode();
+    createInput.focus();
+  }
+});
+
+if (darkMode === "enabled") {
+  enableDarkMode();
+}
+
 const createButton = document.querySelector("#createTaskButton");
 const createInput = document.querySelector("#taskTitleInput");
 const tasksList = document.querySelector("#tasksList");
 createButton.setAttribute("disabled", "");
+createInput.focus();
 
 createInput.addEventListener("keyup", onKeyUp);
 createButton.addEventListener("click", createTask);
