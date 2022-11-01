@@ -1,4 +1,4 @@
-# Welcome to Tasks tracker!
+# Welcome to Tasks Tracker!
 
 Tasks Tracker is a simple way to track your tasks. 
 As a to do list, you can mark as done the things you have to do or to buy.
